@@ -2,7 +2,12 @@ package domain
 
 import (
 	"errors"
+	"strconv"
+	"strings"
+	"time"
 
+	"github.com/civo/civogo"
+	"github.com/civo/cli/utility"
 	"github.com/spf13/cobra"
 )
 
@@ -65,4 +70,24 @@ func init() {
 	domainRecordUpdateCmd.Flags().IntVarP(&updateRecordTTL, "ttl", "t", 0, "The TTL of the record")
 	domainRecordUpdateCmd.Flags().IntVarP(&updateRecordPriority, "priority", "p", 0, "the priority of record only for SRV and MX record")
 
+}
+
+// dnsRecordOutputWriter returns an OutputWriter populated with the full set of
+// fields for a single DNS record, used by the show, create and update commands
+// so their json/custom output stays consistent.
+func dnsRecordOutputWriter(record *civogo.DNSRecord) *utility.OutputWriter {
+	ow := utility.NewOutputWriter()
+	ow.StartLine()
+
+	ow.AppendDataWithLabel("id", record.ID, "ID")
+	ow.AppendDataWithLabel("domain_id", record.DNSDomainID, "Domain ID")
+	ow.AppendDataWithLabel("name", record.Name, "Name")
+	ow.AppendDataWithLabel("value", record.Value, "Value")
+	ow.AppendDataWithLabel("type", strings.ToUpper(string(record.Type)), "Type")
+	ow.AppendDataWithLabel("ttl", strconv.Itoa(record.TTL), "TTL")
+	ow.AppendDataWithLabel("priority", strconv.Itoa(record.Priority), "Priority")
+	ow.AppendDataWithLabel("created_at", record.CreatedAt.Format(time.RFC1123), "Created At")
+	ow.AppendDataWithLabel("updated_at", record.UpdatedAt.Format(time.RFC1123), "Updated At")
+
+	return ow
 }

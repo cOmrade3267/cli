@@ -115,7 +115,7 @@ var domainRecordUpdateCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		ow := utility.NewOutputWriterWithMap(map[string]string{"id": updatedRecord.ID, "name": updatedRecord.Name})
+		ow := dnsRecordOutputWriter(updatedRecord)
 
 		switch common.OutputFormat {
 		case "json":
