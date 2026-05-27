@@ -123,7 +123,7 @@ var domainRecordUpdateCmd = &cobra.Command{
 		case "custom":
 			ow.WriteCustomOutput(common.OutputFields)
 		default:
-			fmt.Printf("Updated %s record %s for %s with a TTL of %s seconds and with a priority of %s with ID %s\n", utility.Green(string(updatedRecord.Type)), utility.Green(updatedRecord.Name), utility.Green(domain.Name), utility.Green(strconv.Itoa(updatedRecord.TTL)), utility.Green(strconv.Itoa(updatedRecord.Priority)), utility.Green(updatedRecord.ID))
+			fmt.Printf("Updated %s record %s for %s with a TTL of %s seconds and with a priority of %s with ID %s\n", utility.Green(strings.ToUpper(string(updatedRecord.Type))), utility.Green(updatedRecord.Name), utility.Green(domain.Name), utility.Green(strconv.Itoa(updatedRecord.TTL)), utility.Green(strconv.Itoa(updatedRecord.Priority)), utility.Green(updatedRecord.ID))
 		}
 	},
 }
